@@ -25,6 +25,58 @@ A lightweight HTTP-to-USB proxy for sending raw ZPL commands to Zebra printers.
 - `POST /print` - Send raw ZPL to the printer
 - `GET /status` - Check printer status
 
+## Client Installation & Usage
+
+To integrate with the Zebra Print Proxy from a web application, use the provided **`ZebraProxySdk`** JavaScript client.
+
+### Include the SDK
+
+Include the SDK in your project:
+
+```html
+<script src="zebra_proxy_sdk.js"></script>
+```
+
+Or, if using ES modules:
+
+```js
+import { ZebraProxySdk } from './zebra_proxy_sdk.js';
+```
+
+### Usage
+
+#### Initialize the SDK
+```js
+const sdk = new ZebraProxySdk("http://127.0.0.1:5000");
+```
+
+#### List Available Printers
+```js
+sdk.listPrinters().then(console.log);
+```
+
+#### Get Default Printer
+```js
+sdk.getDefaultPrinter().then(console.log);
+```
+
+#### Set Default Printer
+```js
+sdk.setDefaultPrinter("usb-0xA5F-0x1234-1-3").then(console.log);
+```
+
+#### Print ZPL
+```js
+const zpl = "^XA^FO50,50^A0N50,50^FDHello World^FS^XZ";
+sdk.printZPL(zpl).then(console.log);
+```
+
+#### Check Printer Status
+```js
+sdk.getStatus().then(console.log);
+```
+
+
 ## Notes
 - Uses `libusb` via `pyusb` to bypass OS print spoolers.
 - Default printer is persisted in `config.json`.
