@@ -8,6 +8,10 @@ A lightweight HTTP-to-USB proxy for sending raw ZPL commands to Zebra printers.
    ```sh
    pip install -r requirements.txt
    ```
+   And install libusb using OS package manager. 
+   
+   For Windows you can try using the included install.bat. Might need to mess around to get libusb proper setup on windows.
+   
 2. Run the proxy:
    ```sh
    python main.py
