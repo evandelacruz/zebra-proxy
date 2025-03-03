@@ -76,4 +76,60 @@ class ZebraProxySdk {
       return { success: false, error: error.message };
     }
   }
+
+  async selectDefaultPrinter() {
+    try {
+      const printers = await this.listPrinters();
+      if (!printers || printers.length === 0) {
+        alert("No printers found.");
+        return;
+      }
+
+      const selectedPrinter = await this._showPrinterDialog(printers);
+      if (selectedPrinter) {
+        await this.setDefaultPrinter(selectedPrinter);
+        alert(`Default printer set to: ${selectedPrinter}`);
+      }
+    } catch (error) {
+      console.error("Error selecting default printer:", error);
+    }
+  }
+
+  _showPrinterDialog(printers) {
+    return new Promise((resolve) => {
+      const dialog = document.createElement("div");
+      dialog.style.position = "fixed";
+      dialog.style.top = "50%";
+      dialog.style.left = "50%";
+      dialog.style.transform = "translate(-50%, -50%)";
+      dialog.style.background = "white";
+      dialog.style.padding = "20px";
+      dialog.style.boxShadow = "0 0 10px rgba(0,0,0,0.3)";
+      dialog.style.zIndex = "1000";
+
+      const label = document.createElement("label");
+      label.innerText = "Select a printer:";
+      dialog.appendChild(label);
+
+      const select = document.createElement("select");
+      printers.forEach((printer) => {
+        const option = document.createElement("option");
+        option.value = printer.id;
+        option.textContent = printer.id;
+        select.appendChild(option);
+      });
+      dialog.appendChild(select);
+
+      const button = document.createElement("button");
+      button.innerText = "Set Default";
+      button.style.marginLeft = "10px";
+      button.onclick = () => {
+        resolve(select.value);
+        document.body.removeChild(dialog);
+      };
+
+      dialog.appendChild(button);
+      document.body.appendChild(dialog);
+    });
+  }
 }
