@@ -35,7 +35,12 @@ load_config()
 
 @app.route("/printers", methods=["GET"])
 def list_printers():
-    return jsonify(usb_handler.get_printers())
+    printers = usb_handler.get_printers()
+    
+    if isinstance(printers, dict) and "error" in printers:
+        return jsonify(printers), 500  # Return the error message properly
+
+    return jsonify(printers)
 
 @app.route("/printers/default", methods=["GET", "POST"])
 def default_printer():
