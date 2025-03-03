@@ -16,6 +16,10 @@ A lightweight HTTP-to-USB proxy for sending raw ZPL commands to Zebra printers.
    ```sh
    python main.py
    ```
+	 or
+   ```sh
+   ./start.bat
+   ```
 
 ## API Endpoints
 
